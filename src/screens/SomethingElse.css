@@ -49,8 +49,10 @@
 
 .something-else__input:focus {
   border-color: var(--color-turquoise);
-  outline: none;
+  outline: 2px solid var(--color-turquoise);
+  outline-offset: 2px;
 }
+
 
 .something-else__actions {
   display: flex;
