@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Gotham Rounded';
+  src: url('./assets/fonts/GothamRoundedBook_21018.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham Rounded';
+  src: url('./assets/fonts/GothamRoundedBold_21016.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham Rounded';
+  src: url('./assets/fonts/GothamRoundedMedium_21022.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  /* Values already provided by the Welcome Figma frame. */
+  --font-family: 'Gotham Rounded', sans-serif;
+  --color-text: #21272a;
+  --color-background: #f6f6f6;
+  --color-turquoise: #00c4b3;
+  --color-primary: #1f77df;
+  --color-white: #fff;
+  --screen-width: 402px;
+  --radius-button: 50px;
+
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
