@@ -18,14 +18,22 @@ const categories = [
   { label: 'Something else', icon: somethingElseIcon },
 ]
 
-export default function Category() {
+export type CategoryProps = {
+  onSelectCategory?: (category: { label: string; icon: string }) => void
+}
+
+export default function Category({ onSelectCategory }: CategoryProps) {
   return (
     <main className="category" aria-labelledby="category-title" data-figma-node="20:4025">
       <h1 id="category-title" className="category__title">What’s been on your mind lately?</h1>
       <ul className="category__list" aria-labelledby="category-title">
         {categories.map(({ label, icon }) => (
           <li key={label}>
-            <button className="category__card" type="button">
+            <button
+              className="category__card"
+              type="button"
+              onClick={() => onSelectCategory?.({ label, icon })}
+            >
               <img className="category__icon" src={icon} width="40" height="40" alt="" />
               <span>{label}</span>
             </button>
@@ -36,3 +44,4 @@ export default function Category() {
     </main>
   )
 }
+

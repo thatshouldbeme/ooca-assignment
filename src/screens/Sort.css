@@ -120,14 +120,15 @@
 }
 
 .sort__drop-zone--drag-over {
-  border-color: var(--color-primary);
-  background-color: #eaf6f5;
-  box-shadow: 0 4px 16px rgba(0, 196, 179, 0.2);
+  border: 2px solid var(--color-turquoise);
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 8px rgba(0, 196, 179, 0.25);
 }
 
 .sort__drop-zone--selectable {
   cursor: pointer;
 }
+
 
 .sort__zone-header {
   display: flex;
