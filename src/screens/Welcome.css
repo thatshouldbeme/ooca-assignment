@@ -2,14 +2,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   width: 100%;
+  height: 100svh;
   min-height: 100svh;
-  padding: clamp(40px, 16.36156svh, 143px) 24px 22px;
+  padding: clamp(40px, 16.36156svh, 143px) 24px 0;
   background-color: var(--color-background);
   background-image: linear-gradient(180deg, #dbf0ee 41.338%, rgba(228, 239, 251, 0) 84.375%, rgba(219, 240, 238, 0) 84.385%);
   background-size: 100% 752px;
   background-repeat: no-repeat;
+}
+
+.welcome::after {
+  content: '';
+  /* Preserve the bottom inset when it fits; yield only this empty space first. */
+  flex: 0 1 22px;
+  min-height: 0;
 }
 
 .welcome > * {
@@ -76,6 +84,6 @@
   display: block;
   width: 107.852px;
   height: 21px;
-  margin-block-start: clamp(40px, calc(20svh - 61.8px), 113px);
+  margin-block-start: clamp(32px, calc(20svh - 69.8px), 105px);
   margin-inline-end: 0.14px;
 }

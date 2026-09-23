@@ -1,4 +1,4 @@
-import mooca from '../assets/ooca/mooca-hugging-sunny.png'
+import mooca from '../assets/images/Welcome_Mooca.svg'
 import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Welcome.css'
 
