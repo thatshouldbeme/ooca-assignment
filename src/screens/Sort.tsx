@@ -1,7 +1,6 @@
-import { useState, type DragEvent, type FormEvent } from 'react'
+import { useState, type DragEvent, type FormEvent, type KeyboardEvent } from 'react'
 import lightningIcon from '../assets/icons/electric_bolt.svg'
 import moonIcon from '../assets/icons/moon.svg'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Sort.css'
 
 export type SortProps = {
@@ -17,8 +16,10 @@ const DEFAULT_THOUGHTS = [
 
 type ZoneId = 'pool' | 'actionable' | 'nonActionable'
 
+type SortItem = { id: string; text: string }
+
 type DraggedItemInfo = {
-  text: string
+  id: string
   sourceZone: ZoneId
 }
 
@@ -26,41 +27,44 @@ export default function Sort({
   initialThoughts = DEFAULT_THOUGHTS,
   onContinue,
 }: SortProps) {
-  const [pool, setPool] = useState<string[]>(initialThoughts)
-  const [actionable, setActionable] = useState<string[]>([])
-  const [nonActionable, setNonActionable] = useState<string[]>([])
+  const [pool, setPool] = useState<SortItem[]>(() => initialThoughts.map((text, index) => ({ id: `thought-${index}`, text })))
+  const [actionable, setActionable] = useState<SortItem[]>([])
+  const [nonActionable, setNonActionable] = useState<SortItem[]>([])
   const [draggedItem, setDraggedItem] = useState<DraggedItemInfo | null>(null)
   const [dragOverZone, setDragOverZone] = useState<ZoneId | null>(null)
-  const [selectedItem, setSelectedItem] = useState<{ text: string; zone: ZoneId } | null>(null)
+  const [selectedItem, setSelectedItem] = useState<{ id: string; zone: ZoneId } | null>(null)
 
-  const moveItem = (itemText: string, fromZone: ZoneId, toZone: ZoneId) => {
+  const moveItem = (itemId: string, fromZone: ZoneId, toZone: ZoneId) => {
     if (fromZone === toZone) return
+    const source = { pool, actionable, nonActionable }[fromZone]
+    const movingItem = source?.find((item) => item.id === itemId)
+    if (!movingItem) return
 
     // Remove from source
     if (fromZone === 'pool') {
-      setPool((prev) => prev.filter((item) => item !== itemText))
+      setPool((prev) => prev.filter((item) => item.id !== itemId))
     } else if (fromZone === 'actionable') {
-      setActionable((prev) => prev.filter((item) => item !== itemText))
+      setActionable((prev) => prev.filter((item) => item.id !== itemId))
     } else if (fromZone === 'nonActionable') {
-      setNonActionable((prev) => prev.filter((item) => item !== itemText))
+      setNonActionable((prev) => prev.filter((item) => item.id !== itemId))
     }
 
     // Add to target
     if (toZone === 'pool') {
-      setPool((prev) => [...prev, itemText])
+      setPool((prev) => [...prev, movingItem])
     } else if (toZone === 'actionable') {
-      setActionable((prev) => [...prev, itemText])
+      setActionable((prev) => [...prev, movingItem])
     } else if (toZone === 'nonActionable') {
-      setNonActionable((prev) => [...prev, itemText])
+      setNonActionable((prev) => [...prev, movingItem])
     }
 
     setSelectedItem(null)
   }
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>, text: string, sourceZone: ZoneId) => {
-    e.dataTransfer.setData('text/plain', JSON.stringify({ text, sourceZone }))
+  const handleDragStart = (e: DragEvent<HTMLDivElement>, id: string, sourceZone: ZoneId) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify({ id, sourceZone }))
     e.dataTransfer.effectAllowed = 'move'
-    setDraggedItem({ text, sourceZone })
+    setDraggedItem({ id, sourceZone })
   }
 
   const handleDragEnd = () => {
@@ -86,40 +90,40 @@ export default function Sort({
   const handleDrop = (e: DragEvent<HTMLDivElement>, targetZone: ZoneId) => {
     e.preventDefault()
     setDragOverZone(null)
-    try {
-      const dataStr = e.dataTransfer.getData('text/plain')
-      if (dataStr) {
-        const { text, sourceZone } = JSON.parse(dataStr) as DraggedItemInfo
-        moveItem(text, sourceZone, targetZone)
-      } else if (draggedItem) {
-        moveItem(draggedItem.text, draggedItem.sourceZone, targetZone)
-      }
-    } catch {
-      if (draggedItem) {
-        moveItem(draggedItem.text, draggedItem.sourceZone, targetZone)
-      }
+    // Only move a card that originated in this sorter.
+    if (draggedItem) {
+      moveItem(draggedItem.id, draggedItem.sourceZone, targetZone)
     }
     setDraggedItem(null)
   }
 
-  const handleCardClick = (text: string, zone: ZoneId) => {
-    if (selectedItem && selectedItem.text === text) {
+  const handleCardClick = (id: string, zone: ZoneId) => {
+    if (selectedItem && selectedItem.id === id) {
       setSelectedItem(null)
     } else {
-      setSelectedItem({ text, zone })
+      setSelectedItem({ id, zone })
     }
   }
 
   const handleZoneClick = (targetZone: ZoneId) => {
     if (selectedItem && selectedItem.zone !== targetZone) {
-      moveItem(selectedItem.text, selectedItem.zone, targetZone)
+      moveItem(selectedItem.id, selectedItem.zone, targetZone)
+    }
+  }
+
+  const handleZoneKeyDown = (event: KeyboardEvent<HTMLDivElement>, zone: ZoneId) => {
+    // Ignore bubbled keystrokes from cards inside a zone.
+    if (event.target !== event.currentTarget) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      handleZoneClick(zone)
     }
   }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (pool.length === 0 && onContinue) {
-      onContinue({ actionable, nonActionable })
+      onContinue({ actionable: actionable.map((item) => item.text), nonActionable: nonActionable.map((item) => item.text) })
     }
   }
 
@@ -138,35 +142,40 @@ export default function Sort({
           <section className="sort__pool" aria-label="Unsorted thoughts">
             {pool.map((item) => (
               <div
-                key={item}
+                key={item.id}
                 className={`sort__thought-card ${
-                  selectedItem?.text === item ? 'sort__thought-card--selected' : ''
+                  selectedItem?.id === item.id ? 'sort__thought-card--selected' : ''
                 }`}
                 draggable
-                onDragStart={(e) => handleDragStart(e, item, 'pool')}
+                onDragStart={(e) => handleDragStart(e, item.id, 'pool')}
                 onDragEnd={handleDragEnd}
-                onClick={() => handleCardClick(item, 'pool')}
+                onClick={() => handleCardClick(item.id, 'pool')}
                 tabIndex={0}
                 role="button"
-                aria-label={`Unsorted thought: ${item}. Drag to a category or click to select.`}
+                aria-pressed={selectedItem?.id === item.id}
+                aria-describedby="sort-keyboard-help"
+                aria-label={`Unsorted thought: ${item.text}. Drag to a category or click to select.`}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
-                    handleCardClick(item, 'pool')
+                    handleCardClick(item.id, 'pool')
                   }
                 }}
               >
-                {item}
+                {item.text}
               </div>
             ))}
           </section>
         )}
 
         <div className="sort__instructions">
-          <p>Drag each thought to where it fits best.</p>
+          <p>Drag a thought, or select it and then select a category.</p>
           <p>There’s no right or wrong answer.</p>
         </div>
 
+        <p id="sort-keyboard-help" className="sort__sr-only">
+          Use Enter or Space to select a thought. Tab to a category and press Enter or Space to move it.
+        </p>
         <section className="sort__drop-zones" aria-label="Drop categories">
           {/* Actionable Zone */}
           <div
@@ -183,6 +192,9 @@ export default function Sort({
             onDragLeave={(e) => handleDragLeave(e, 'actionable')}
             onDrop={(e) => handleDrop(e, 'actionable')}
             onClick={() => handleZoneClick('actionable')}
+            tabIndex={0}
+            aria-describedby="sort-keyboard-help"
+            onKeyDown={(event) => handleZoneKeyDown(event, 'actionable')}
             role="region"
             aria-label="Category: I can do something about it"
           >
@@ -207,26 +219,28 @@ export default function Sort({
               <div className="sort__sorted-list">
                 {actionable.map((item) => (
                   <div
-                    key={item}
-                    className="sort__sorted-card"
+                    key={item.id}
+                    className={`sort__sorted-card ${selectedItem?.id === item.id ? 'sort__thought-card--selected' : ''}`}
                     draggable
-                    onDragStart={(e) => handleDragStart(e, item, 'actionable')}
+                    onDragStart={(e) => handleDragStart(e, item.id, 'actionable')}
                     onDragEnd={handleDragEnd}
                     onClick={(e) => {
                       e.stopPropagation()
-                      handleCardClick(item, 'actionable')
+                      handleCardClick(item.id, 'actionable')
                     }}
                     role="button"
+                    aria-pressed={selectedItem?.id === item.id}
+                    aria-describedby="sort-keyboard-help"
                     tabIndex={0}
-                    aria-label={`Sorted thought: ${item}. Drag to another category or pool.`}
+                    aria-label={`Sorted thought: ${item.text}. Drag to another category or select to move.`}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        handleCardClick(item, 'actionable')
+                        handleCardClick(item.id, 'actionable')
                       }
                     }}
                   >
-                    {item}
+                    {item.text}
                   </div>
                 ))}
               </div>
@@ -248,6 +262,9 @@ export default function Sort({
             onDragLeave={(e) => handleDragLeave(e, 'nonActionable')}
             onDrop={(e) => handleDrop(e, 'nonActionable')}
             onClick={() => handleZoneClick('nonActionable')}
+            tabIndex={0}
+            aria-describedby="sort-keyboard-help"
+            onKeyDown={(event) => handleZoneKeyDown(event, 'nonActionable')}
             role="region"
             aria-label="Category: I can’t change this right now"
           >
@@ -272,26 +289,28 @@ export default function Sort({
               <div className="sort__sorted-list">
                 {nonActionable.map((item) => (
                   <div
-                    key={item}
-                    className="sort__sorted-card"
+                    key={item.id}
+                    className={`sort__sorted-card ${selectedItem?.id === item.id ? 'sort__thought-card--selected' : ''}`}
                     draggable
-                    onDragStart={(e) => handleDragStart(e, item, 'nonActionable')}
+                    onDragStart={(e) => handleDragStart(e, item.id, 'nonActionable')}
                     onDragEnd={handleDragEnd}
                     onClick={(e) => {
                       e.stopPropagation()
-                      handleCardClick(item, 'nonActionable')
+                      handleCardClick(item.id, 'nonActionable')
                     }}
                     role="button"
+                    aria-pressed={selectedItem?.id === item.id}
+                    aria-describedby="sort-keyboard-help"
                     tabIndex={0}
-                    aria-label={`Sorted thought: ${item}. Drag to another category or pool.`}
+                    aria-label={`Sorted thought: ${item.text}. Drag to another category or select to move.`}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        handleCardClick(item, 'nonActionable')
+                        handleCardClick(item.id, 'nonActionable')
                       }
                     }}
                   >
-                    {item}
+                    {item.text}
                   </div>
                 ))}
               </div>
@@ -307,13 +326,6 @@ export default function Sort({
           >
             Continue
           </button>
-          <img
-            className="sort__logo"
-            src={mindfullLogo}
-            width="107.852"
-            height="21"
-            alt="mindfull"
-          />
         </div>
       </form>
     </main>

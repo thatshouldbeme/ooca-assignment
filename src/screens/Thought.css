@@ -224,11 +224,6 @@
   outline-offset: 4px;
 }
 
-.thought__logo {
-  display: block;
-  width: 107.852px;
-  height: 21px;
-}
 
 /* Desktop layout rules */
 @media (min-width: 768px) {

@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from 'react'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './SmallStep.css'
 
 export type SmallStepProps = {
@@ -30,7 +29,7 @@ export default function SmallStep({
     if (onContinue) {
       const results = thoughts.map((thought, idx) => ({
         thought,
-        step: steps[idx] ?? '',
+        step: (steps[idx] ?? '').trim(),
       }))
       onContinue(results)
     }
@@ -56,7 +55,7 @@ export default function SmallStep({
                 htmlFor={`small-step-input-${index}`}
                 className="small-step__card-label"
               >
-                My small step
+                My small step (optional)
               </label>
               <input
                 id={`small-step-input-${index}`}
@@ -74,13 +73,6 @@ export default function SmallStep({
           <button className="small-step__continue" type="submit">
             Continue
           </button>
-          <img
-            className="small-step__logo"
-            src={mindfullLogo}
-            width="107.852"
-            height="21"
-            alt="mindfull"
-          />
         </div>
       </form>
     </main>

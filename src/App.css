@@ -3,3 +3,72 @@
   width: 100%;
   min-height: 100svh;
 }
+
+/* Keep branding independent of each screen's content and button placement. */
+.flow {
+  --logo-bottom: max(22px, env(safe-area-inset-bottom, 0px));
+  --footer-height: calc(var(--logo-bottom) + 21px + 12px);
+  height: 100svh;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) var(--footer-height);
+  overflow: hidden;
+}
+
+.flow__pages {
+  min-height: 0;
+  overflow-y: auto;
+
+}
+
+
+.flow__footer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: var(--logo-bottom);
+  background: var(--color-background);
+}
+
+.flow__footer img {
+  display: block;
+  width: 107.852px;
+  height: 21px;
+  flex-shrink: 0;
+}
+
+/* Each screen fills only the space above the shared footer. */
+.flow__pages main {
+  min-height: calc(100svh - var(--footer-height));
+}
+
+.flow__pages .welcome {
+  height: calc(100svh - var(--footer-height));
+}
+
+/* Transfer the old trailing logo space to the shared footer without moving buttons. */
+.flow__pages :is(.something-else__actions, .thought__actions, .sort__actions, .small-step__actions) {
+  padding-bottom: max(0px, calc(85px - var(--footer-height)));
+}
+
+.flow__pages .summary__footer {
+  padding-bottom: max(0px, calc(61px - var(--footer-height)));
+}
+
+.flow__pages .welcome::after {
+  flex-basis: max(0px, calc(clamp(32px, calc(20svh - 69.8px), 105px) + 43px - var(--footer-height)));
+}
+
+.flow__pages .category::after {
+  content: '';
+  flex: 0 0 max(0px, calc(clamp(32px, calc(20svh - 89.8px), 85px) + 21px - var(--footer-height)));
+}
+
+@media (min-width: 768px) {
+  .flow__pages .summary__footer {
+    padding-bottom: 0;
+  }
+
+  .flow__pages .summary {
+    padding-bottom: max(0px, calc(65px - var(--footer-height)));
+  }
+}

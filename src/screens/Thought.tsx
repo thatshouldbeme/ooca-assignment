@@ -2,7 +2,6 @@ import { useState, type FormEvent, type KeyboardEvent } from 'react'
 import workIcon from '../assets/icons/business_center.svg'
 import addIcon from '../assets/icons/add.svg'
 import removeIcon from '../assets/icons/remove.svg'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Thought.css'
 
 export type ThoughtProps = {
@@ -36,7 +35,7 @@ export default function Thought({
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
       event.preventDefault()
       handleAddThought()
     }
@@ -44,8 +43,12 @@ export default function Thought({
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    if (thoughts.length > 0 && onContinue) {
-      onContinue(thoughts)
+    const pending = currentInput.trim()
+    const completedThoughts = pending && thoughts.length < MAX_THOUGHTS
+      ? [...thoughts, pending]
+      : thoughts
+    if (completedThoughts.length > 0) {
+      onContinue?.(completedThoughts)
     }
   }
 
@@ -66,7 +69,7 @@ export default function Thought({
           </div>
 
           <h1 id="thought-title" className="thought__title">
-            What about this thing has bean on your mind
+            What about this thing has been on your mind?
           </h1>
           <p className="thought__subtitle">
             Add up to 3 thoughts. A few words is enough.
@@ -126,17 +129,10 @@ export default function Thought({
           <button
             className="thought__continue"
             type="submit"
-            disabled={thoughts.length === 0}
+            disabled={thoughts.length === 0 && !currentInput.trim()}
           >
             Continue
           </button>
-          <img
-            className="thought__logo"
-            src={mindfullLogo}
-            width="107.852"
-            height="21"
-            alt="mindfull"
-          />
         </div>
       </form>
     </main>

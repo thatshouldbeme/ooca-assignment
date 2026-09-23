@@ -79,11 +79,3 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 4px;
 }
-
-.welcome__logo {
-  display: block;
-  width: 107.852px;
-  height: 21px;
-  margin-block-start: clamp(32px, calc(20svh - 69.8px), 105px);
-  margin-inline-end: 0.14px;
-}

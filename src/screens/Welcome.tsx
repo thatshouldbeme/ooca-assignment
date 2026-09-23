@@ -1,5 +1,4 @@
 import mooca from '../assets/images/Welcome_Mooca.svg'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Welcome.css'
 
 type WelcomeProps = {
@@ -16,7 +15,6 @@ export default function Welcome({ onStart }: WelcomeProps) {
         <p>Take 2 minutes to sort through your thoughts and see what’s in your hands right now.</p>
       </div>
       <button className="welcome__start" type="button" onClick={onStart}>Let’s sort it out</button>
-      <img className="welcome__logo" src={mindfullLogo} width="107.852" height="21" alt="mindfull" />
     </main>
   )
 }

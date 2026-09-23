@@ -1,7 +1,6 @@
 import lightningIcon from '../assets/icons/electric_bolt.svg'
 import moonIcon from '../assets/icons/moon.svg'
 import moocaIllustration from '../assets/images/Mooca.svg'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Summary.css'
 
 export type ActionableItem = {
@@ -67,6 +66,8 @@ export default function Summary({
     }
   }
 
+  const hasSteps = actionable.some(({ step }) => step.trim().length > 0)
+
   const isMixed = actionable.length > 0 && uncontrollable.length > 0
   const isAllActionable = actionable.length > 0 && uncontrollable.length === 0
   const isAllUncontrollable = actionable.length === 0 && uncontrollable.length > 0
@@ -86,10 +87,12 @@ export default function Summary({
           {isAllActionable && (
             <>
               <h1 id="summary-title" className="summary__title">
-                You’ve found what you can do next.
+                {hasSteps ? 'You’ve found a small step you can take.' : 'You’ve made space to see what’s on your mind.'}
               </h1>
               <p className="summary__subtitle">
-                You don’t have to do it all at once. Take it one small step at a time.
+                {hasSteps
+                  ? 'You don’t have to do it all at once. Take it one small step at a time.'
+                  : 'You don’t need to decide on a next step right now.'}
               </p>
             </>
           )}
@@ -127,7 +130,7 @@ export default function Summary({
                 {actionable.map(({ thought, step }, index) => (
                   <div key={`${thought}-${index}`} className="summary__actionable-item">
                     <p className="summary__actionable-thought">{thought}</p>
-                    {step && (
+                    {step.trim() && (
                       <div className="summary__actionable-step">
                         <svg
                           className="summary__arrow-icon"
@@ -178,7 +181,7 @@ export default function Summary({
 
               <p className="summary__rest-message">
                 {isMixed
-                  ? 'Focus on what you can do now. What’s outside your control still matters..'
+                  ? 'Focus on what you can do now. What’s outside your control still matters.'
                   : 'Give yourself permission to set these down for now. You can come back to them when you need to.'}
               </p>
             </section>
@@ -200,13 +203,6 @@ export default function Summary({
           >
             I’m done for now
           </button>
-          <img
-            className="summary__logo"
-            src={mindfullLogo}
-            width="107.852"
-            height="21"
-            alt="mindfull"
-          />
         </footer>
       </div>
     </main>

@@ -63,6 +63,11 @@
   outline-offset: 4px;
 }
 
+.category__card:active {
+  background: #bbf0ea;
+}
+
+
 .category__icon {
   display: block;
   flex: 0 0 40px;
@@ -70,13 +75,6 @@
   height: 40px;
 }
 
-.category__logo {
-  display: block;
-  width: 107.852px;
-  height: 21px;
-  margin-block-start: clamp(32px, calc(20svh - 89.8px), 85px);
-  margin-inline-end: 0.14px;
-}
 
 /* Two original-width cards plus their gap and the page's side padding. */
 @media (min-width: 732px) {

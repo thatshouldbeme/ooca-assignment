@@ -5,7 +5,6 @@ import financesIcon from '../assets/icons/wallet.svg'
 import myselfIcon from '../assets/icons/mood.svg'
 import healthIcon from '../assets/icons/medical-condition-cough .svg'
 import somethingElseIcon from '../assets/icons/something_else.svg'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './Category.css'
 
 const categories = [
@@ -40,7 +39,6 @@ export default function Category({ onSelectCategory }: CategoryProps) {
           </li>
         ))}
       </ul>
-      <img className="category__logo" src={mindfullLogo} width="107.852" height="21" alt="mindfull" />
     </main>
   )
 }

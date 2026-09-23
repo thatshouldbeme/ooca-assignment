@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import mindfullLogo from '../assets/ooca/mindfull-logo.svg'
 import './SomethingElse.css'
 
 export type SomethingElseProps = {
@@ -34,7 +33,6 @@ export default function SomethingElse({ onContinue }: SomethingElseProps) {
           <button className="something-else__continue" type="submit" disabled={!thought.trim()}>
             Continue
           </button>
-          <img className="something-else__logo" src={mindfullLogo} width="107.852" height="21" alt="mindfull" />
         </div>
       </form>
     </main>

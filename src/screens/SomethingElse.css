@@ -91,11 +91,6 @@
   background: #8fbbef;
 }
 
-.something-else__logo {
-  display: block;
-  width: 107.852px;
-  height: 21px;
-}
 
 @media (min-width: 768px) {
   .something-else {
