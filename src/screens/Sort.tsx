@@ -1,4 +1,5 @@
 import { useState, type DragEvent, type FormEvent, type KeyboardEvent } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import lightningIcon from '../assets/icons/electric_bolt.svg'
 import moonIcon from '../assets/icons/moon.svg'
 import './Sort.css'
@@ -33,8 +34,12 @@ export default function Sort({
   const [draggedItem, setDraggedItem] = useState<DraggedItemInfo | null>(null)
   const [dragOverZone, setDragOverZone] = useState<ZoneId | null>(null)
   const [selectedItem, setSelectedItem] = useState<{ id: string; zone: ZoneId } | null>(null)
+  const [hasInteracted, setHasInteracted] = useState(false)
+
+  const shouldReduceMotion = useReducedMotion()
 
   const moveItem = (itemId: string, fromZone: ZoneId, toZone: ZoneId) => {
+    setHasInteracted(true)
     if (fromZone === toZone) return
     const source = { pool, actionable, nonActionable }[fromZone]
     const movingItem = source?.find((item) => item.id === itemId)
@@ -62,6 +67,7 @@ export default function Sort({
   }
 
   const handleDragStart = (e: DragEvent<HTMLDivElement>, id: string, sourceZone: ZoneId) => {
+    setHasInteracted(true)
     e.dataTransfer.setData('text/plain', JSON.stringify({ id, sourceZone }))
     e.dataTransfer.effectAllowed = 'move'
     setDraggedItem({ id, sourceZone })
@@ -98,6 +104,7 @@ export default function Sort({
   }
 
   const handleCardClick = (id: string, zone: ZoneId) => {
+    setHasInteracted(true)
     if (selectedItem && selectedItem.id === id) {
       setSelectedItem(null)
     } else {
@@ -106,6 +113,7 @@ export default function Sort({
   }
 
   const handleZoneClick = (targetZone: ZoneId) => {
+    setHasInteracted(true)
     if (selectedItem && selectedItem.zone !== targetZone) {
       moveItem(selectedItem.id, selectedItem.zone, targetZone)
     }
@@ -140,14 +148,14 @@ export default function Sort({
 
         {pool.length > 0 && (
           <section className="sort__pool" aria-label="Unsorted thoughts">
-            {pool.map((item) => (
-              <div
+            {pool.map((item, index) => (
+              <motion.div
                 key={item.id}
                 className={`sort__thought-card ${
                   selectedItem?.id === item.id ? 'sort__thought-card--selected' : ''
                 }`}
                 draggable
-                onDragStart={(e) => handleDragStart(e, item.id, 'pool')}
+                onDragStart={(e) => handleDragStart(e as unknown as DragEvent<HTMLDivElement>, item.id, 'pool')}
                 onDragEnd={handleDragEnd}
                 onClick={() => handleCardClick(item.id, 'pool')}
                 tabIndex={0}
@@ -161,16 +169,25 @@ export default function Sort({
                     handleCardClick(item.id, 'pool')
                   }
                 }}
+                animate={
+                  !hasInteracted && !shouldReduceMotion && index === 0
+                    ? { y: [0, 11, 0] }
+                    : { y: 0 }
+                }
+                transition={
+                  !hasInteracted && !shouldReduceMotion && index === 0
+                    ? { delay: 0.4, duration: 0.5, ease: 'easeInOut' }
+                    : undefined
+                }
               >
                 {item.text}
-              </div>
+              </motion.div>
             ))}
           </section>
         )}
 
         <div className="sort__instructions">
-          <p>Drag a thought, or select it and then select a category.</p>
-          <p>There’s no right or wrong answer.</p>
+          <p>Drag each thought to the option that feels right.</p>
         </div>
 
         <p id="sort-keyboard-help" className="sort__sr-only">
@@ -178,7 +195,7 @@ export default function Sort({
         </p>
         <section className="sort__drop-zones" aria-label="Drop categories">
           {/* Actionable Zone */}
-          <div
+          <motion.div
             className={`sort__drop-zone ${
               actionable.length === 0
                 ? 'sort__drop-zone--empty'
@@ -188,15 +205,31 @@ export default function Sort({
                 ? 'sort__drop-zone--selectable'
                 : ''
             }`}
-            onDragOver={(e) => handleDragOver(e, 'actionable')}
-            onDragLeave={(e) => handleDragLeave(e, 'actionable')}
-            onDrop={(e) => handleDrop(e, 'actionable')}
+            onDragOver={(e) => handleDragOver(e as unknown as DragEvent<HTMLDivElement>, 'actionable')}
+            onDragLeave={(e) => handleDragLeave(e as unknown as DragEvent<HTMLDivElement>, 'actionable')}
+            onDrop={(e) => handleDrop(e as unknown as DragEvent<HTMLDivElement>, 'actionable')}
             onClick={() => handleZoneClick('actionable')}
             tabIndex={0}
             aria-describedby="sort-keyboard-help"
             onKeyDown={(event) => handleZoneKeyDown(event, 'actionable')}
             role="region"
             aria-label="Category: I can do something about it"
+            animate={
+              !hasInteracted && !shouldReduceMotion && pool.length > 0
+                ? {
+                    boxShadow: [
+                      '0 0 0 0px rgba(0, 196, 179, 0)',
+                      '0 0 0 6px rgba(0, 196, 179, 0.25)',
+                      '0 0 0 0px rgba(0, 196, 179, 0)',
+                    ],
+                  }
+                : undefined
+            }
+            transition={
+              !hasInteracted && !shouldReduceMotion && pool.length > 0
+                ? { delay: 0.4, duration: 0.5, ease: 'easeInOut' }
+                : undefined
+            }
           >
             <div className="sort__zone-header">
               <div className="sort__zone-title-row">
@@ -245,7 +278,7 @@ export default function Sort({
                 ))}
               </div>
             )}
-          </div>
+          </motion.div>
 
           {/* Non-Actionable Zone */}
           <div
