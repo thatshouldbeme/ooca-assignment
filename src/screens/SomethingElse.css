@@ -1,0 +1,108 @@
+.something-else {
+  display: flex;
+  min-height: 100svh;
+  padding: 48px 24px 32px;
+  background-color: var(--color-background);
+  background-image: linear-gradient(180deg, #dbf0ee 41.338%, rgba(228, 239, 251, 0) 84.375%, rgba(219, 240, 238, 0) 84.385%);
+  background-size: 100% 752px;
+  background-repeat: no-repeat;
+}
+
+.something-else__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.something-else__title {
+  margin: 0;
+  color: var(--color-turquoise);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.something-else__input {
+  width: 100%;
+  min-width: 0;
+  height: 58px;
+  flex-shrink: 0;
+  margin-top: 40px;
+  padding: 16px 12px;
+  border: 1px solid var(--color-turquoise);
+  border-radius: 20px;
+  background: var(--color-white);
+  color: #000;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.something-else__input::placeholder {
+  color: #c4c4c4;
+  opacity: 1;
+}
+
+.something-else__input:focus {
+  border-color: var(--color-turquoise);
+  outline: none;
+}
+
+.something-else__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  margin-top: auto;
+  padding-top: 48px;
+}
+
+.something-else__continue {
+  width: 279px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 8px 24px;
+  border: 0;
+  border-radius: var(--radius-button);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.something-else__continue:disabled {
+  background: #cfdbe3;
+  color: var(--color-background);
+  cursor: default;
+}
+
+.something-else__continue:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+.something-else__continue:not(:disabled):active {
+  background: #8fbbef;
+}
+
+.something-else__logo {
+  display: block;
+  width: 107.852px;
+  height: 21px;
+}
+
+@media (min-width: 768px) {
+  .something-else {
+    padding: 64px;
+  }
+
+  .something-else__form {
+    max-width: 760px;
+  }
+}
