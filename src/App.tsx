@@ -1,10 +1,12 @@
-import SmallStep from './screens/SmallStep'
+import Summary from './screens/Summary'
 import './App.css'
 
 export default function App() {
   // Step state and navigation will be added when the flow is implemented.
-  return <SmallStep />
+  // previewState can be 'mixed' | 'actionable' | 'uncontrollable'
+  return <Summary previewState="mixed" />
 }
+
 
 
 

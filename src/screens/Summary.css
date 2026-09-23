@@ -1,0 +1,247 @@
+.summary {
+  display: flex;
+  min-height: 100svh;
+  width: 100%;
+  padding: 48px 24px 32px;
+  background-color: var(--color-background);
+  background-image: linear-gradient(
+    180deg,
+    #dbf0ee 41.338%,
+    rgba(228, 239, 251, 0) 84.375%,
+    rgba(219, 240, 238, 0) 84.385%
+  );
+  background-size: 100% 752px;
+  background-repeat: no-repeat;
+  overflow-y: auto;
+}
+
+.summary__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 336px;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.summary__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.summary__title {
+  margin: 0;
+  color: var(--color-turquoise);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  max-width: 330px;
+}
+
+.summary__subtitle {
+  margin: 8px 0 0;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+  max-width: 320px;
+}
+
+.summary__subtitle p {
+  margin: 0;
+}
+
+.summary__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.summary__card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px;
+  border-radius: 20px;
+  background: var(--color-white);
+  box-shadow: 0 16px 24px rgba(0, 196, 179, 0.16);
+  box-sizing: border-box;
+}
+
+.summary__card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary__card-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.summary__card-heading {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.summary__actionable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.summary__actionable-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.summary__actionable-thought {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.summary__actionable-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: var(--color-turquoise);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.summary__arrow-icon {
+  flex-shrink: 0;
+  color: var(--color-turquoise);
+}
+
+.summary__step-text {
+  word-break: break-word;
+}
+
+.summary__rest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.summary__rest-thought {
+  margin: 0;
+  color: var(--color-turquoise);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.summary__rest-message {
+  margin: 20px 0 0;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.summary__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin-top: auto;
+  padding-top: 40px;
+}
+
+.summary__illustration {
+  display: block;
+  width: 170px;
+  height: auto;
+  object-fit: contain;
+}
+
+.summary__done-button {
+  width: 279px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 8px 24px;
+  border: 0;
+  border-radius: var(--radius-button);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.summary__done-button:active {
+  background: #8fbbef;
+}
+
+.summary__done-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+.summary__logo {
+  display: block;
+  width: 107.852px;
+  height: 21px;
+}
+
+/* Desktop layout rules */
+@media (min-width: 768px) {
+  .summary {
+    padding: 32px 64px 24px;
+  }
+
+  .summary__content {
+    max-width: 480px;
+  }
+
+  .summary__title {
+    font-size: 18px;
+    max-width: 440px;
+  }
+
+  .summary__subtitle {
+    max-width: 440px;
+  }
+
+  .summary__sections {
+    margin-top: 24px;
+  }
+
+  .summary__footer {
+    padding-top: 24px;
+    gap: 20px;
+  }
+}
