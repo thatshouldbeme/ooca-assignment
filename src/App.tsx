@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import Welcome from './screens/Welcome'
 import Category from './screens/Category'
@@ -131,6 +131,10 @@ export default function App() {
     setCurrentScreen('welcome')
   }
 
+  useEffect(() => {
+    pagesRef.current?.scrollTo(0, 0)
+  }, [currentScreen])
+
   return (
     <div className="flow">
       <div className="flow__pages" ref={pagesRef}>
@@ -141,10 +145,8 @@ export default function App() {
             initial="initial"
             animate="animate"
             exit="exit"
-            onAnimationStart={(definition) => {
-              if (definition === 'animate') pagesRef.current?.scrollTo(0, 0)
-            }}
           >
+
             {currentScreen === 'welcome' && (
               <Welcome onStart={handleStart} />
             )}
