@@ -1,12 +1,9 @@
 import { useState, type FormEvent, type KeyboardEvent } from 'react'
-import workIcon from '../assets/icons/business_center.svg'
 import addIcon from '../assets/icons/add.svg'
 import removeIcon from '../assets/icons/remove.svg'
 import './Thought.css'
 
 export type ThoughtProps = {
-  categoryName?: string
-  categoryIcon?: string
   initialThoughts?: string[]
   onContinue?: (thoughts: string[]) => void
 }
@@ -14,8 +11,6 @@ export type ThoughtProps = {
 const MAX_THOUGHTS = 3
 
 export default function Thought({
-  categoryName = 'Work / Study',
-  categoryIcon = workIcon,
   initialThoughts = [],
   onContinue,
 }: ThoughtProps) {
@@ -56,23 +51,11 @@ export default function Thought({
     <main className="thought" aria-labelledby="thought-title">
       <form className="thought__form" onSubmit={handleSubmit}>
         <header className="thought__header">
-          <div className="thought__category">
-            <img
-              className="thought__category-icon"
-              src={categoryIcon}
-              width="40"
-              height="40"
-              alt=""
-              aria-hidden="true"
-            />
-            <span className="thought__category-label">{categoryName}</span>
-          </div>
-
           <h1 id="thought-title" className="thought__title">
-            What about this thing has been on your mind?
+            What’s been on your mind?
           </h1>
           <p className="thought__subtitle">
-            Add up to 3 thoughts. A few words is enough.
+            Write down the thoughts that have been taking your energy.
           </p>
         </header>
 

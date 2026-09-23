@@ -45,7 +45,7 @@ npm run build
 
 ## Live Demo
 
-Coming soon
+[View Live Demo](https://ooca-assignment.vercel.app/)
 
 ## Design
 
