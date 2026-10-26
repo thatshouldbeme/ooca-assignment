@@ -16,24 +16,24 @@ export type SummaryProps = {
 }
 
 const DEFAULT_MIXED_ACTIONABLE: ActionableItem[] = [
-  { thought: 'I’m not sure my work is good enough', step: 'Ask some one for feed back' },
-  { thought: 'I still have a lot to finish', step: 'Finish one section first' },
+  { thought: 'ไม่แน่ใจว่างานที่ทำดีพอหรือยัง', step: 'ลองขอความเห็นจากใครสักคน' },
+  { thought: 'ยังมีงานค้างอีกเยอะเลย', step: 'ลองทำให้เสร็จทีละส่วน' },
 ]
 
 const DEFAULT_MIXED_UNCONTROLLABLE: string[] = [
-  'My partner doesn’t like me',
+  'กลัวว่าแฟนจะไม่รักเราแล้ว',
 ]
 
 const DEFAULT_ALL_ACTIONABLE: ActionableItem[] = [
-  { thought: 'I’m not sure my work is good enough', step: 'Ask some one for feed back' },
-  { thought: 'I still have a lot to finish', step: 'Finish one section first' },
-  { thought: 'I’m of for losing my job', step: 'Improve my skill' },
+  { thought: 'ไม่แน่ใจว่างานที่ทำดีพอหรือยัง', step: 'ลองขอความเห็นจากใครสักคน' },
+  { thought: 'ยังมีงานค้างอีกเยอะเลย', step: 'ลองทำให้เสร็จทีละส่วน' },
+  { thought: 'กลัวว่าจะตกงาน', step: 'ลองฝึกทักษะเพิ่มทีละนิด' },
 ]
 
 const DEFAULT_ALL_UNCONTROLLABLE: string[] = [
-  'My partner doesn’t like me',
-  'My supervisor doesn’t care about me',
-  'How everyone think about  me',
+  'กลัวว่าแฟนจะไม่รักเราแล้ว',
+  'รู้สึกว่าหัวหน้าไม่ค่อยใส่ใจ',
+  'คนอื่นจะมองเรายังไงนะ',
 ]
 
 export default function Summary({
@@ -78,21 +78,21 @@ export default function Summary({
         <header className="summary__header">
           {isMixed && (
             <h1 id="summary-title" className="summary__title">
-              You don’t have to solve everything at once.
+              ไม่ต้องแก้ทุกเรื่องให้ได้ในวันนี้ก็ได้นะ
               <br />
-              Here’s where your energy can go for now.
+              ตอนนี้ลองเริ่มจากเรื่องที่พอไหวก่อน
             </h1>
           )}
 
           {isAllActionable && (
             <>
               <h1 id="summary-title" className="summary__title">
-                {hasSteps ? 'You’ve found a small step you can take.' : 'You’ve made space to see what’s on your mind.'}
+                {hasSteps ? 'เจอก้าวเล็ก ๆ ที่อยากลองแล้วนะ' : 'ได้ค่อย ๆ มองเห็นเรื่องในใจชัดขึ้นแล้วนะ'}
               </h1>
               <p className="summary__subtitle">
                 {hasSteps
-                  ? 'You don’t have to do it all at once. Take it one small step at a time.'
-                  : 'You don’t need to decide on a next step right now.'}
+                  ? 'ไม่ต้องทำให้ได้ทั้งหมด ค่อย ๆ ไปทีละก้าวก็พอ'
+                  : 'ยังไม่ต้องรู้ว่าจะทำอะไรต่อในตอนนี้ก็ได้นะ'}
               </p>
             </>
           )}
@@ -100,11 +100,11 @@ export default function Summary({
           {isAllUncontrollable && (
             <>
               <h1 id="summary-title" className="summary__title">
-                Not everything is yours to solve.
+                ไม่ใช่ทุกเรื่องที่เราต้องแก้เองนะ
               </h1>
               <div className="summary__subtitle">
-                <p>Some things matter deeply, even when they’re outside your control.</p>
-                <p>For now, it’s okay to let them rest.</p>
+                <p>บางเรื่องสำคัญกับเรามาก แม้จะยังเปลี่ยนอะไรไม่ได้</p>
+                <p>ตอนนี้วางไว้ก่อน แล้วให้ตัวเองได้พักบ้างก็ได้นะ</p>
               </div>
             </>
           )}
@@ -113,7 +113,7 @@ export default function Summary({
         <div className="summary__sections">
           {/* Actionable Section */}
           {actionable.length > 0 && (
-            <section className="summary__card" aria-label="What you can act on">
+            <section className="summary__card" aria-label="เรื่องที่พอลงมือทำได้">
               <div className="summary__card-header">
                 <img
                   className="summary__card-icon"
@@ -123,7 +123,7 @@ export default function Summary({
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="summary__card-heading">What you can act on</h2>
+                <h2 className="summary__card-heading">เรื่องที่พอลงมือทำได้</h2>
               </div>
 
               <div className="summary__actionable-list">
@@ -158,7 +158,7 @@ export default function Summary({
 
           {/* Uncontrollable / Rest Section */}
           {uncontrollable.length > 0 && (
-            <section className="summary__card" aria-label="What you can rest now">
+            <section className="summary__card" aria-label="เรื่องที่วางไว้ก่อนได้">
               <div className="summary__card-header">
                 <img
                   className="summary__card-icon"
@@ -168,7 +168,7 @@ export default function Summary({
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="summary__card-heading">What you can rest now</h2>
+                <h2 className="summary__card-heading">เรื่องที่วางไว้ก่อนได้</h2>
               </div>
 
               <div className="summary__rest-list">
@@ -181,8 +181,8 @@ export default function Summary({
 
               <p className="summary__rest-message">
                 {isMixed
-                  ? 'Focus on what you can do now. What’s outside your control still matters.'
-                  : 'Give yourself permission to set these down for now. You can come back to them when you need to.'}
+                  ? 'ลองเริ่มจากสิ่งที่พอทำได้ ส่วนเรื่องที่ยังเปลี่ยนไม่ได้ ก็ยังสำคัญกับเราได้เหมือนเดิม'
+                  : 'ให้ตัวเองวางเรื่องเหล่านี้ไว้ก่อนก็ได้นะ ถ้าอยากกลับมาคิดอีกเมื่อไหร่ก็ค่อยว่ากัน'}
               </p>
             </section>
           )}
@@ -194,14 +194,14 @@ export default function Summary({
             src={moocaIllustration}
             width="170"
             height="154"
-            alt="Mooca with Sunny"
+            alt="มูก้าอยู่กับซันนี่"
           />
           <button
             className="summary__done-button"
             type="button"
             onClick={onDone}
           >
-            I’m done for now
+            วันนี้พอแค่นี้ก่อน
           </button>
         </footer>
       </div>

@@ -41,7 +41,7 @@
   color: var(--color-turquoise);
   font-size: 24px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
   text-align: center;
 }
 
@@ -52,7 +52,7 @@
   margin-inline-end: 4px;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.6;
   text-align: center;
 }
 
@@ -61,7 +61,7 @@
 .welcome__start {
   width: 279px;
   max-width: 100%;
-  height: 40px;
+  min-height: 44px;
   margin-block-start: clamp(32px, calc(20svh - 92.8px), 82px);
   margin-inline-start: 1px;
   padding: 8px 20px;
@@ -70,8 +70,8 @@
   background: var(--color-primary);
   color: var(--color-white);
   font-size: 16px;
-  font-weight: 500;
-  line-height: 16px;
+  font-weight: 700;
+  line-height: 1.5;
   cursor: pointer;
 }
 

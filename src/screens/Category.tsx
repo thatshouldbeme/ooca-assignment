@@ -8,13 +8,13 @@ import somethingElseIcon from '../assets/icons/something_else.svg'
 import './Category.css'
 
 const categories = [
-  { label: 'Work / Study', icon: workIcon },
-  { label: 'Relationship', icon: relationshipIcon },
-  { label: 'Family', icon: familyIcon },
-  { label: 'Finances', icon: financesIcon },
-  { label: 'Myself / Future', icon: myselfIcon },
-  { label: 'Health', icon: healthIcon },
-  { label: 'Something else', icon: somethingElseIcon },
+  { label: 'งาน / การเรียน', icon: workIcon },
+  { label: 'ความสัมพันธ์', icon: relationshipIcon },
+  { label: 'ครอบครัว', icon: familyIcon },
+  { label: 'เรื่องเงิน', icon: financesIcon },
+  { label: 'ตัวเอง / อนาคต', icon: myselfIcon },
+  { label: 'สุขภาพ', icon: healthIcon },
+  { label: 'เรื่องอื่น ๆ', icon: somethingElseIcon },
 ]
 
 export type CategoryProps = {
@@ -24,7 +24,7 @@ export type CategoryProps = {
 export default function Category({ onSelectCategory }: CategoryProps) {
   return (
     <main className="category" aria-labelledby="category-title" data-figma-node="20:4025">
-      <h1 id="category-title" className="category__title">What’s been on your mind lately?</h1>
+      <h1 id="category-title" className="category__title">ช่วงนี้มีเรื่องอะไรอยู่ในใจบ้าง?</h1>
       <ul className="category__list" aria-labelledby="category-title">
         {categories.map(({ label, icon }) => (
           <li key={label}>

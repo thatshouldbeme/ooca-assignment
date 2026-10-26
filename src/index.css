@@ -1,30 +1,22 @@
 @font-face {
-  font-family: 'Gotham Rounded';
-  src: url('./assets/fonts/GothamRoundedBook_21018.ttf') format('truetype');
+  font-family: 'LINE Seed Sans TH';
+  src: url('./assets/fonts/LINESeedSansTH_W_Rg.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham Rounded';
-  src: url('./assets/fonts/GothamRoundedBold_21016.ttf') format('truetype');
+  font-family: 'LINE Seed Sans TH';
+  src: url('./assets/fonts/LINESeedSansTH_W_Bd.woff2') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Gotham Rounded';
-  src: url('./assets/fonts/GothamRoundedMedium_21022.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
 :root {
   /* Values already provided by the Welcome Figma frame. */
-  --font-family: 'Gotham Rounded', sans-serif;
+  --font-family: 'LINE Seed Sans TH', sans-serif;
   --color-text: #21272a;
   --color-background: #f6f6f6;
   --color-turquoise: #00c4b3;

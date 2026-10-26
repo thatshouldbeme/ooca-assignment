@@ -21,7 +21,7 @@
   color: var(--color-turquoise);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
   text-align: center;
 }
 
@@ -39,7 +39,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .something-else__input::placeholder {
@@ -73,8 +73,8 @@
   background: var(--color-primary);
   color: var(--color-white);
   font-size: 16px;
-  font-weight: 500;
-  line-height: 16px;
+  font-weight: 700;
+  line-height: 1.5;
   cursor: pointer;
 }
 

@@ -4,8 +4,8 @@ import Welcome from './screens/Welcome'
 import Thought from './screens/Thought'
 import Sort from './screens/Sort'
 import SmallStep from './screens/SmallStep'
-import Summary, { type ActionableItem } from './screens/Summary'
-import mindfullLogo from './assets/ooca/mindfull-logo.svg'
+import Summary from './screens/Summary'
+import { reconcileGroups, type ThoughtGroups, type ThoughtItem } from './flow'
 import './App.css'
 
 export type FlowScreen =
@@ -17,10 +17,16 @@ export type FlowScreen =
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<FlowScreen>('welcome')
-  const [thoughts, setThoughts] = useState<string[]>([])
-  const [actionableThoughts, setActionableThoughts] = useState<string[]>([])
-  const [uncontrollableThoughts, setUncontrollableThoughts] = useState<string[]>([])
-  const [actionableWithSteps, setActionableWithSteps] = useState<ActionableItem[]>([])
+  const [thoughts, setThoughts] = useState<ThoughtItem[]>([])
+  const [currentInput, setCurrentInput] = useState('')
+  const [groups, setGroups] = useState<ThoughtGroups>({ pool: [], actionable: [], nonActionable: [] })
+  const [steps, setSteps] = useState<Record<string, string>>({})
+
+  const handleThoughtsChange = (updated: ThoughtItem[]) => {
+    setThoughts(updated)
+    setGroups((previous) => reconcileGroups(updated, previous))
+    setSteps((previous) => Object.fromEntries(updated.map(({ id }) => [id, previous[id] ?? ''])))
+  }
 
   const pagesRef = useRef<HTMLDivElement>(null)
 
@@ -54,44 +60,15 @@ export default function App() {
     setCurrentScreen('thought')
   }
 
-  // 2. Thought -> Sort
-  const handleThoughtsContinue = (enteredThoughts: string[]) => {
-    setThoughts(enteredThoughts)
-    setCurrentScreen('sort')
+  const handleSortContinue = () => {
+    setCurrentScreen(groups.actionable.length === 0 ? 'summary' : 'smallStep')
   }
 
-  // 3. Sort -> SmallStep (or directly to Summary if 0 actionable)
-  const handleSortContinue = ({
-    actionable,
-    nonActionable,
-  }: {
-    actionable: string[]
-    nonActionable: string[]
-  }) => {
-    setActionableThoughts(actionable)
-    setUncontrollableThoughts(nonActionable)
-
-    if (actionable.length === 0) {
-      // Skip SmallStep when there are no actionable thoughts
-      setActionableWithSteps([])
-      setCurrentScreen('summary')
-    } else {
-      setCurrentScreen('smallStep')
-    }
-  }
-
-  // 4. SmallStep -> Summary
-  const handleSmallStepContinue = (steps: ActionableItem[]) => {
-    setActionableWithSteps(steps)
-    setCurrentScreen('summary')
-  }
-
-  // 5. Summary "I'm done for now" -> Reset to Welcome
   const handleDone = () => {
     setThoughts([])
-    setActionableThoughts([])
-    setUncontrollableThoughts([])
-    setActionableWithSteps([])
+    setCurrentInput('')
+    setGroups({ pool: [], actionable: [], nonActionable: [] })
+    setSteps({})
     setCurrentScreen('welcome')
   }
 
@@ -116,37 +93,44 @@ export default function App() {
 
             {currentScreen === 'thought' && (
               <Thought
-                onContinue={handleThoughtsContinue}
+                thoughts={thoughts}
+                currentInput={currentInput}
+                onThoughtsChange={handleThoughtsChange}
+                onInputChange={setCurrentInput}
+                onContinue={() => setCurrentScreen('sort')}
+                onBack={() => setCurrentScreen('welcome')}
               />
             )}
 
             {currentScreen === 'sort' && (
               <Sort
-                initialThoughts={thoughts}
+                groups={groups}
+                onChange={setGroups}
+                onBack={() => setCurrentScreen('thought')}
                 onContinue={handleSortContinue}
               />
             )}
 
             {currentScreen === 'smallStep' && (
               <SmallStep
-                thoughts={actionableThoughts}
-                onContinue={handleSmallStepContinue}
+                thoughts={groups.actionable}
+                steps={steps}
+                onStepChange={(id, value) => setSteps((previous) => ({ ...previous, [id]: value }))}
+                onContinue={() => setCurrentScreen('summary')}
+                onBack={() => setCurrentScreen('sort')}
               />
             )}
 
             {currentScreen === 'summary' && (
               <Summary
-                actionableThoughts={actionableWithSteps}
-                uncontrollableThoughts={uncontrollableThoughts}
+                actionableThoughts={groups.actionable.map(({ id, text }) => ({ thought: text, step: steps[id] ?? '' }))}
+                uncontrollableThoughts={groups.nonActionable.map(({ text }) => text)}
                 onDone={handleDone}
               />
             )}
           </motion.div>
         </AnimatePresence>
       </div>
-      <footer className="flow__footer">
-        <img src={mindfullLogo} width="107.852" height="21" alt="mindfull" />
-      </footer>
     </div>
   )
 }

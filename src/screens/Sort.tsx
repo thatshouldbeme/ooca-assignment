@@ -1,36 +1,28 @@
 import { useState, type DragEvent, type FormEvent, type KeyboardEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import type { ThoughtGroups } from '../flow'
+import BackButton from '../components/BackButton'
 import lightningIcon from '../assets/icons/electric_bolt.svg'
 import moonIcon from '../assets/icons/moon.svg'
 import './Sort.css'
 
 export type SortProps = {
-  initialThoughts?: string[]
-  onContinue?: (sorted: { actionable: string[]; nonActionable: string[] }) => void
+  groups: ThoughtGroups
+  onChange: (groups: ThoughtGroups) => void
+  onContinue: () => void
+  onBack: () => void
 }
-
-const DEFAULT_THOUGHTS = [
-  'I’m not sure my work is good enough',
-  'I still have a lot to finish',
-  'My partner doesn’t like me',
-]
 
 type ZoneId = 'pool' | 'actionable' | 'nonActionable'
 
-type SortItem = { id: string; text: string }
 
 type DraggedItemInfo = {
   id: string
   sourceZone: ZoneId
 }
 
-export default function Sort({
-  initialThoughts = DEFAULT_THOUGHTS,
-  onContinue,
-}: SortProps) {
-  const [pool, setPool] = useState<SortItem[]>(() => initialThoughts.map((text, index) => ({ id: `thought-${index}`, text })))
-  const [actionable, setActionable] = useState<SortItem[]>([])
-  const [nonActionable, setNonActionable] = useState<SortItem[]>([])
+export default function Sort({ groups, onChange, onContinue, onBack }: SortProps) {
+  const { pool, actionable, nonActionable } = groups
   const [draggedItem, setDraggedItem] = useState<DraggedItemInfo | null>(null)
   const [dragOverZone, setDragOverZone] = useState<ZoneId | null>(null)
   const [selectedItem, setSelectedItem] = useState<{ id: string; zone: ZoneId } | null>(null)
@@ -45,23 +37,11 @@ export default function Sort({
     const movingItem = source?.find((item) => item.id === itemId)
     if (!movingItem) return
 
-    // Remove from source
-    if (fromZone === 'pool') {
-      setPool((prev) => prev.filter((item) => item.id !== itemId))
-    } else if (fromZone === 'actionable') {
-      setActionable((prev) => prev.filter((item) => item.id !== itemId))
-    } else if (fromZone === 'nonActionable') {
-      setNonActionable((prev) => prev.filter((item) => item.id !== itemId))
-    }
-
-    // Add to target
-    if (toZone === 'pool') {
-      setPool((prev) => [...prev, movingItem])
-    } else if (toZone === 'actionable') {
-      setActionable((prev) => [...prev, movingItem])
-    } else if (toZone === 'nonActionable') {
-      setNonActionable((prev) => [...prev, movingItem])
-    }
+    onChange({
+      ...groups,
+      [fromZone]: groups[fromZone].filter((item) => item.id !== itemId),
+      [toZone]: [...groups[toZone], movingItem],
+    })
 
     setSelectedItem(null)
   }
@@ -131,7 +111,7 @@ export default function Sort({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (pool.length === 0 && onContinue) {
-      onContinue({ actionable: actionable.map((item) => item.text), nonActionable: nonActionable.map((item) => item.text) })
+      onContinue()
     }
   }
 
@@ -140,14 +120,15 @@ export default function Sort({
   return (
     <main className="sort" aria-labelledby="sort-title">
       <form className="sort__form" onSubmit={handleSubmit}>
+        <BackButton onBack={onBack} />
         <header className="sort__header">
           <h1 id="sort-title" className="sort__title">
-            Let’s sort through it
+            ค่อย ๆ แยกทีละเรื่องกันนะ
           </h1>
         </header>
 
         {pool.length > 0 && (
-          <section className="sort__pool" aria-label="Unsorted thoughts">
+          <section className="sort__pool" aria-label="เรื่องที่ยังไม่ได้แยกหมวด">
             {pool.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -162,7 +143,7 @@ export default function Sort({
                 role="button"
                 aria-pressed={selectedItem?.id === item.id}
                 aria-describedby="sort-keyboard-help"
-                aria-label={`Unsorted thought: ${item.text}. Drag to a category or click to select.`}
+                aria-label={`เรื่องที่ยังไม่ได้แยกหมวด: ${item.text} ลากไปที่หมวด หรือแตะเพื่อเลือก`}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
@@ -187,13 +168,13 @@ export default function Sort({
         )}
 
         <div className="sort__instructions">
-          <p>Drag each thought to the option that feels right.</p>
+          <p>ลากแต่ละเรื่องไปที่หมวดที่รู้สึกว่าใช่ หรือแตะเลือกเรื่อง แล้วแตะหมวดก็ได้นะ</p>
         </div>
 
         <p id="sort-keyboard-help" className="sort__sr-only">
-          Use Enter or Space to select a thought. Tab to a category and press Enter or Space to move it.
+          กด Enter หรือ Space เพื่อเลือกเรื่อง กด Tab ไปที่หมวด แล้วกด Enter หรือ Space อีกครั้งเพื่อย้าย
         </p>
-        <section className="sort__drop-zones" aria-label="Drop categories">
+        <section className="sort__drop-zones" aria-label="หมวดสำหรับแยกเรื่องในใจ">
           {/* Actionable Zone */}
           <motion.div
             className={`sort__drop-zone ${
@@ -213,7 +194,7 @@ export default function Sort({
             aria-describedby="sort-keyboard-help"
             onKeyDown={(event) => handleZoneKeyDown(event, 'actionable')}
             role="region"
-            aria-label="Category: I can do something about it"
+            aria-label="หมวด: เรื่องนี้เราพอทำอะไรได้"
             animate={
               !hasInteracted && !shouldReduceMotion && pool.length > 0
                 ? {
@@ -241,10 +222,10 @@ export default function Sort({
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="sort__zone-title">I can do something about it</h2>
+                <h2 className="sort__zone-title">เรื่องนี้เราพอทำอะไรได้</h2>
               </div>
               <p className="sort__zone-subtitle">
-                My actions can help change or improve this.
+                มีบางอย่างที่เราลองทำ เพื่อให้เรื่องนี้ดีขึ้นได้
               </p>
             </div>
 
@@ -265,7 +246,7 @@ export default function Sort({
                     aria-pressed={selectedItem?.id === item.id}
                     aria-describedby="sort-keyboard-help"
                     tabIndex={0}
-                    aria-label={`Sorted thought: ${item.text}. Drag to another category or select to move.`}
+                    aria-label={`เรื่องที่แยกหมวดแล้ว: ${item.text} ลากไปหมวดอื่น หรือแตะเพื่อย้าย`}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
@@ -299,7 +280,7 @@ export default function Sort({
             aria-describedby="sort-keyboard-help"
             onKeyDown={(event) => handleZoneKeyDown(event, 'nonActionable')}
             role="region"
-            aria-label="Category: I can’t change this right now"
+            aria-label="หมวด: เรื่องนี้ยังอยู่นอกมือเรา"
           >
             <div className="sort__zone-header">
               <div className="sort__zone-title-row">
@@ -311,10 +292,10 @@ export default function Sort({
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="sort__zone-title">I can’t change this right now</h2>
+                <h2 className="sort__zone-title">เรื่องนี้ยังอยู่นอกมือเรา</h2>
               </div>
               <p className="sort__zone-subtitle">
-                It depends on other people, the past, or things I can’t change.
+                อาจขึ้นอยู่กับคนอื่น เป็นเรื่องที่ผ่านมาแล้ว หรือยังเปลี่ยนไม่ได้ในตอนนี้
               </p>
             </div>
 
@@ -335,7 +316,7 @@ export default function Sort({
                     aria-pressed={selectedItem?.id === item.id}
                     aria-describedby="sort-keyboard-help"
                     tabIndex={0}
-                    aria-label={`Sorted thought: ${item.text}. Drag to another category or select to move.`}
+                    aria-label={`เรื่องที่แยกหมวดแล้ว: ${item.text} ลากไปหมวดอื่น หรือแตะเพื่อย้าย`}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
@@ -357,7 +338,7 @@ export default function Sort({
             type="submit"
             disabled={!isAllSorted}
           >
-            Continue
+            ไปต่อ
           </button>
         </div>
       </form>

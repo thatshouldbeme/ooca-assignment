@@ -19,19 +19,19 @@ export default function SomethingElse({ onContinue }: SomethingElseProps) {
     <main className="something-else" aria-labelledby="something-else-title">
       <form className="something-else__form" onSubmit={handleSubmit}>
         <h1 id="something-else-title" className="something-else__title">
-          What’s been on your mind lately?
+          ช่วงนี้มีเรื่องอะไรอยู่ในใจบ้าง?
         </h1>
         <input
           className="something-else__input"
           type="text"
           aria-labelledby="something-else-title"
-          placeholder="Type what’s on your mind..."
+          placeholder="ลองพิมพ์เรื่องที่อยู่ในใจ..."
           value={thought}
           onChange={(event) => setThought(event.target.value)}
         />
         <div className="something-else__actions">
           <button className="something-else__continue" type="submit" disabled={!thought.trim()}>
-            Continue
+            ไปต่อ
           </button>
         </div>
       </form>

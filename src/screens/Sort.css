@@ -37,7 +37,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
   text-align: center;
 }
 
@@ -62,7 +62,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
   word-break: break-word;
   cursor: grab;
   user-select: none;
@@ -89,7 +89,7 @@
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .sort__drop-zones {
@@ -154,7 +154,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .sort__zone-subtitle {
@@ -163,7 +163,7 @@
   font-family: var(--font-family);
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .sort__sorted-list {
@@ -186,7 +186,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.6;
   word-break: break-word;
   cursor: grab;
   user-select: none;
@@ -217,8 +217,8 @@
   color: var(--color-white);
   font-family: var(--font-family);
   font-size: 16px;
-  font-weight: 500;
-  line-height: 16px;
+  font-weight: 700;
+  line-height: 1.5;
   cursor: pointer;
 }
 

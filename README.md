@@ -50,3 +50,9 @@ npm run build
 ## Design
 
 Designed in Figma as part of the OOCA UX/UI Designer test assignment.
+
+## Typography
+
+Thai interface uses LINE Seed Sans TH (Regular and Bold), bundled locally as WOFF2.
+Font by LY Corporation, released under SIL Open Font License 1.1.
+Source: https://seed.line.me/index_th.html
