@@ -280,7 +280,7 @@ export default function Sort({ groups, onChange, onContinue, onBack }: SortProps
             aria-describedby="sort-keyboard-help"
             onKeyDown={(event) => handleZoneKeyDown(event, 'nonActionable')}
             role="region"
-            aria-label="หมวด: เรื่องนี้ยังอยู่นอกมือเรา"
+            aria-label="หมวด: เรื่องที่ไม่ได้ขึ้นอยู่กับเราคนเดียว"
           >
             <div className="sort__zone-header">
               <div className="sort__zone-title-row">
@@ -292,7 +292,7 @@ export default function Sort({ groups, onChange, onContinue, onBack }: SortProps
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="sort__zone-title">เรื่องนี้ยังอยู่นอกมือเรา</h2>
+                <h2 className="sort__zone-title">เรื่องที่ไม่ได้ขึ้นอยู่กับเราคนเดียว</h2>
               </div>
               <p className="sort__zone-subtitle">
                 อาจขึ้นอยู่กับคนอื่น เป็นเรื่องที่ผ่านมาแล้ว หรือยังเปลี่ยนไม่ได้ในตอนนี้

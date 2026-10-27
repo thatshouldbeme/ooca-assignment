@@ -240,3 +240,6 @@
     font-size: 18px;
   }
 }
+
+.thought__card--editable { border: 0; cursor: pointer; text-align: left; }
+.thought__card--editable:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }

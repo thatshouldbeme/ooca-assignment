@@ -13,6 +13,7 @@ export type FlowScreen =
   | 'thought'
   | 'sort'
   | 'smallStep'
+  | 'outsideStep'
   | 'summary'
 
 export default function App() {
@@ -61,7 +62,7 @@ export default function App() {
   }
 
   const handleSortContinue = () => {
-    setCurrentScreen(groups.actionable.length === 0 ? 'summary' : 'smallStep')
+    setCurrentScreen(groups.actionable.length > 0 ? 'smallStep' : 'outsideStep')
   }
 
   const handleDone = () => {
@@ -111,20 +112,21 @@ export default function App() {
               />
             )}
 
-            {currentScreen === 'smallStep' && (
+            {(currentScreen === 'smallStep' || currentScreen === 'outsideStep') && (
               <SmallStep
-                thoughts={groups.actionable}
+                thoughts={currentScreen === 'smallStep' ? groups.actionable : []}
+                uncontrollableThoughts={currentScreen === 'outsideStep' ? groups.nonActionable : []}
                 steps={steps}
                 onStepChange={(id, value) => setSteps((previous) => ({ ...previous, [id]: value }))}
-                onContinue={() => setCurrentScreen('summary')}
-                onBack={() => setCurrentScreen('sort')}
+                onContinue={() => setCurrentScreen(currentScreen === 'smallStep' && groups.nonActionable.length > 0 ? 'outsideStep' : 'summary')}
+                onBack={() => setCurrentScreen(currentScreen === 'outsideStep' && groups.actionable.length > 0 ? 'smallStep' : 'sort')}
               />
             )}
 
             {currentScreen === 'summary' && (
               <Summary
                 actionableThoughts={groups.actionable.map(({ id, text }) => ({ thought: text, step: steps[id] ?? '' }))}
-                uncontrollableThoughts={groups.nonActionable.map(({ text }) => text)}
+                uncontrollableThoughts={groups.nonActionable.map(({ id, text }) => ({ thought: text, step: steps[id] ?? '' }))}
                 onDone={handleDone}
               />
             )}

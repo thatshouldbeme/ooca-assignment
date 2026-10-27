@@ -94,9 +94,10 @@ export default function Thought({ thoughts, currentInput, onThoughtsChange, onIn
                   </>
                 ) : (
                   <div className="thought__row">
-                    <div className="thought__card"><span className="thought__card-text">{item.text}</span></div>
-                    <button type="button" className="flow__text-button" aria-label={`แก้ไขเรื่อง: ${item.text}`}
-                      onClick={() => { setEditingId(item.id); setEditText(item.text) }}>แก้ไข</button>
+                    <button type="button" className="thought__card thought__card--editable" aria-label={`แก้ไขเรื่อง: ${item.text}`}
+                      onClick={() => { setEditingId(item.id); setEditText(item.text) }}>
+                      <span className="thought__card-text">{item.text}</span>
+                    </button>
                     <button type="button" className="thought__action-btn thought__action-btn--remove"
                       onClick={() => handleRemoveThought(item.id)} aria-label={`ลบเรื่องนี้: ${item.text}`}>
                       <img src={removeIcon} width="40" height="40" alt="" aria-hidden="true" />

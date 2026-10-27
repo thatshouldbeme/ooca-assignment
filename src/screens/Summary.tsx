@@ -10,7 +10,7 @@ export type ActionableItem = {
 
 export type SummaryProps = {
   actionableThoughts?: ActionableItem[]
-  uncontrollableThoughts?: string[]
+  uncontrollableThoughts?: ActionableItem[]
   previewState?: 'mixed' | 'actionable' | 'uncontrollable'
   onDone?: () => void
 }
@@ -20,8 +20,8 @@ const DEFAULT_MIXED_ACTIONABLE: ActionableItem[] = [
   { thought: 'ยังมีงานค้างอีกเยอะเลย', step: 'ลองทำให้เสร็จทีละส่วน' },
 ]
 
-const DEFAULT_MIXED_UNCONTROLLABLE: string[] = [
-  'กลัวว่าแฟนจะไม่รักเราแล้ว',
+const DEFAULT_MIXED_UNCONTROLLABLE: ActionableItem[] = [
+  { thought: 'กลัวว่าแฟนจะไม่รักเราแล้ว', step: '' },
 ]
 
 const DEFAULT_ALL_ACTIONABLE: ActionableItem[] = [
@@ -30,10 +30,10 @@ const DEFAULT_ALL_ACTIONABLE: ActionableItem[] = [
   { thought: 'กลัวว่าจะตกงาน', step: 'ลองฝึกทักษะเพิ่มทีละนิด' },
 ]
 
-const DEFAULT_ALL_UNCONTROLLABLE: string[] = [
-  'กลัวว่าแฟนจะไม่รักเราแล้ว',
-  'รู้สึกว่าหัวหน้าไม่ค่อยใส่ใจ',
-  'คนอื่นจะมองเรายังไงนะ',
+const DEFAULT_ALL_UNCONTROLLABLE: ActionableItem[] = [
+  { thought: 'กลัวว่าแฟนจะไม่รักเราแล้ว', step: '' },
+  { thought: 'รู้สึกว่าหัวหน้าไม่ค่อยใส่ใจ', step: 'ลองขอเวลาคุยสั้น ๆ' },
+  { thought: 'คนอื่นจะมองเรายังไงนะ', step: '' },
 ]
 
 export default function Summary({
@@ -43,7 +43,7 @@ export default function Summary({
   onDone,
 }: SummaryProps) {
   let actionable: ActionableItem[] = []
-  let uncontrollable: string[] = []
+  let uncontrollable: ActionableItem[] = []
 
   if (actionableThoughts !== undefined || uncontrollableThoughts !== undefined) {
     actionable = actionableThoughts ?? []
@@ -67,6 +67,8 @@ export default function Summary({
   }
 
   const hasSteps = actionable.some(({ step }) => step.trim().length > 0)
+
+  const hasOutsideSteps = uncontrollable.some(({ step }) => step.trim().length > 0)
 
   const isMixed = actionable.length > 0 && uncontrollable.length > 0
   const isAllActionable = actionable.length > 0 && uncontrollable.length === 0
@@ -104,7 +106,7 @@ export default function Summary({
               </h1>
               <div className="summary__subtitle">
                 <p>บางเรื่องสำคัญกับเรามาก แม้จะยังเปลี่ยนอะไรไม่ได้</p>
-                <p>ตอนนี้วางไว้ก่อน แล้วให้ตัวเองได้พักบ้างก็ได้นะ</p>
+                <p>{hasOutsideSteps ? 'ถ้าอยากลอง ก็เริ่มจากสิ่งเล็ก ๆ ที่พอไหว โดยไม่ต้องกดดันให้ได้ผลอย่างที่หวังนะ' : 'ตอนนี้วางไว้ก่อน แล้วให้ตัวเองได้พักบ้างก็ได้นะ'}</p>
               </div>
             </>
           )}
@@ -158,7 +160,7 @@ export default function Summary({
 
           {/* Uncontrollable / Rest Section */}
           {uncontrollable.length > 0 && (
-            <section className="summary__card" aria-label="เรื่องที่วางไว้ก่อนได้">
+            <section className="summary__card summary__card--outside" aria-label="เรื่องที่ไม่ได้ขึ้นอยู่กับเราคนเดียว">
               <div className="summary__card-header">
                 <img
                   className="summary__card-icon"
@@ -168,20 +170,26 @@ export default function Summary({
                   alt=""
                   aria-hidden="true"
                 />
-                <h2 className="summary__card-heading">เรื่องที่วางไว้ก่อนได้</h2>
+                <h2 className="summary__card-heading">เรื่องที่ไม่ได้ขึ้นอยู่กับเราคนเดียว</h2>
               </div>
 
               <div className="summary__rest-list">
-                {uncontrollable.map((item, index) => (
-                  <p key={`${item}-${index}`} className="summary__rest-thought">
-                    {item}
-                  </p>
+                {uncontrollable.map(({ thought, step }, index) => (
+                  <div key={`${thought}-${index}`}>
+                    <p className="summary__rest-thought">{thought}</p>
+                    {step.trim() && (
+                      <div className="summary__outside-step">
+                        <span className="summary__outside-step-label">สิ่งที่อยากลองเพื่อตัวเอง</span>
+                        <p className="summary__step-text">{step}</p>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
 
               <p className="summary__rest-message">
-                {isMixed
-                  ? 'ลองเริ่มจากสิ่งที่พอทำได้ ส่วนเรื่องที่ยังเปลี่ยนไม่ได้ ก็ยังสำคัญกับเราได้เหมือนเดิม'
+                {hasOutsideSteps
+                  ? 'เราลองทำในส่วนของเราได้ โดยไม่ต้องรับผิดชอบผลทั้งหมด พักได้เสมอถ้ายังไม่ไหวนะ'
                   : 'ให้ตัวเองวางเรื่องเหล่านี้ไว้ก่อนก็ได้นะ ถ้าอยากกลับมาคิดอีกเมื่อไหร่ก็ค่อยว่ากัน'}
               </p>
             </section>

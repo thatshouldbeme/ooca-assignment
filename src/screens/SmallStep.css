@@ -174,3 +174,20 @@
     max-width: 400px;
   }
 }
+
+.small-step__group { margin-top: 32px; }
+.small-step__group-title { display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.6; }
+.small-step__group-title img { width: 24px; height: 24px; flex-shrink: 0; }
+.small-step__group-help, .small-step__group-prompt, .small-step__permission { font-size: 14px; line-height: 1.7; margin-top: 8px; }
+.small-step__group-prompt { font-weight: 700; }
+.small-step__group .small-step__cards { margin-top: 16px; }
+.small-step--outside { background-image: linear-gradient(180deg, #e8effa, #f6f6f6 752px); }
+.small-step--outside .small-step__title { color: #4b6390; }
+.small-step__group--outside { padding: 20px 16px; border: 1px solid #d5e0f0; border-radius: 24px; background: #edf2fa; }
+.small-step__group--outside .small-step__group-title,
+.small-step__group--outside .small-step__card-thought { color: #4b6390; }
+.small-step__group--outside .small-step__card { box-shadow: 0 8px 20px rgba(75, 99, 144, 0.08); }
+.small-step__input--outside { border-color: #8299ba; min-height: 104px; height: auto; resize: vertical; padding: 12px; }
+.small-step__input--outside::placeholder { color: #66748a; }
+.small-step__input--outside:focus { border-color: #4b6390; outline-color: #4b6390; }
+.small-step__permission { color: #4b6390; margin-top: 16px; }
