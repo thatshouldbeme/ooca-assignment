@@ -4,9 +4,8 @@
   align-items: center;
   justify-content: safe center;
   width: 100%;
-  height: 100svh;
-  min-height: 100svh;
-  padding: clamp(40px, 16.36156svh, 143px) 24px 0;
+  min-height: calc(100svh - var(--credit-height, 0px));
+  padding: clamp(16px, 3svh, 32px) 24px;
   background-color: var(--color-background);
   background-image: linear-gradient(180deg, #dbf0ee 41.338%, rgba(228, 239, 251, 0) 84.375%, rgba(219, 240, 238, 0) 84.385%);
   background-size: 100% 752px;
@@ -16,7 +15,7 @@
 .welcome::after {
   content: '';
   /* Preserve the bottom inset when it fits; yield only this empty space first. */
-  flex: 0 1 22px;
+  flex: 0 1 0;
   min-height: 0;
 }
 
@@ -25,9 +24,11 @@
 }
 
 .welcome__illustration {
+  /* Keep the original space while the replacement mascot is being designed. */
+  visibility: hidden;
   display: block;
-  width: 279px;
-  height: 217px;
+  width: min(279px, 30svh);
+  height: clamp(48px, 23svh, 180px);
   max-width: 100%;
   object-fit: contain;
   /* Preserve the artwork's slight offset within the Figma frame. */
@@ -37,7 +38,7 @@
 .welcome__title {
   width: 100%;
   max-width: 334px;
-  margin: clamp(24px, 7.23112svh, 63.2px) 0 0;
+  margin: clamp(12px, 3svh, 24px) 0 0;
   color: var(--color-turquoise);
   font-size: 24px;
   font-weight: 700;
@@ -48,7 +49,7 @@
 .welcome__description {
   width: 100%;
   max-width: 334px;
-  margin-block-start: 27.2px;
+  margin-block-start: clamp(12px, 3svh, 24px);
   margin-inline-end: 4px;
   font-size: 16px;
   font-weight: 400;
@@ -62,7 +63,7 @@
   width: 279px;
   max-width: 100%;
   min-height: 44px;
-  margin-block-start: clamp(32px, calc(20svh - 92.8px), 82px);
+  margin-block-start: clamp(20px, 4svh, 40px);
   margin-inline-start: 1px;
   padding: 8px 20px;
   border: 0;
@@ -78,4 +79,11 @@
 .welcome__start:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 4px;
+}
+
+@media (max-height: 560px) {
+  .welcome__illustration { height: 48px; }
+  .welcome__title { font-size: 20px; margin-top: 8px; }
+  .welcome__description { font-size: 14px; line-height: 1.5; }
+  .welcome__start { margin-top: 16px; }
 }

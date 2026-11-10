@@ -180,6 +180,8 @@
 }
 
 .summary__illustration {
+  /* Keep the original space while the replacement mascot is being designed. */
+  visibility: hidden;
   display: block;
   width: 170px;
   height: auto;

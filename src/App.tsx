@@ -132,6 +132,9 @@ export default function App() {
             )}
           </motion.div>
         </AnimatePresence>
+        <footer className="flow__credit">
+          <small>ผู้จัดทำ: ซัลสบีล เดเระมะ</small>
+        </footer>
       </div>
     </div>
   )
