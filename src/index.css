@@ -15,12 +15,28 @@
 }
 
 :root {
-  /* Values already provided by the Welcome Figma frame. */
+  /* Blue-led palette with butter yellow, peach and cedar accents. */
   --font-family: 'LINE Seed Sans TH', sans-serif;
-  --color-text: #21272a;
-  --color-background: #f6f6f6;
-  --color-turquoise: #00c4b3;
-  --color-primary: #1f77df;
+  --color-text: #263c57;
+  --color-background: #faf7f1;
+  --color-accent: #375e95;
+  --color-primary: #7197d3;
+  --color-primary-active: #5f85c0;
+  --color-action-text: #375e95;
+  --color-action-surface: #e7f1fa;
+  --color-button-text: #fff;
+  --color-muted: #64758a;
+  --color-butter: #ffe497;
+  --color-peach: #ffba9c;
+  --color-sky: #cfe1f3;
+  --color-cedar: #96945c;
+  --color-card-tint: #fff0bf;
+  --color-outside-surface: #fff0e8;
+  --color-outside-border: #e7bda9;
+  --color-disabled: #d8e0e9;
+  --color-shadow: rgb(71 108 161 / 12%);
+  --surface-noise: url('./assets/noise.svg');
+  --page-background: var(--surface-noise), linear-gradient(180deg, #cfe1f3 0%, #e8f0f7 48%, #faf7f1 100%);
   --color-white: #fff;
   --screen-width: 402px;
   --radius-button: 50px;

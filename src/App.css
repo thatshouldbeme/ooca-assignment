@@ -13,11 +13,13 @@
 }
 
 .flow__credit {
+  background-image: var(--surface-noise);
+  background-size: 180px 180px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
-  color: #657379;
+  color: var(--color-muted);
   text-align: center;
 }
 
@@ -54,7 +56,7 @@
 .flow__text-button {
   border: 0;
   background: transparent;
-  color: var(--color-primary);
+  color: var(--color-action-text);
   cursor: pointer;
   font-weight: 700;
   line-height: 1.6;

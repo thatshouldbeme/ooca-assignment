@@ -263,7 +263,7 @@ export default function Sort({ groups, onChange, onContinue, onBack }: SortProps
 
           {/* Non-Actionable Zone */}
           <div
-            className={`sort__drop-zone ${
+            className={`sort__drop-zone sort__drop-zone--outside ${
               nonActionable.length === 0
                 ? 'sort__drop-zone--empty'
                 : 'sort__drop-zone--populated'

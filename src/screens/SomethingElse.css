@@ -3,9 +3,9 @@
   min-height: 100svh;
   padding: 48px 24px 32px;
   background-color: var(--color-background);
-  background-image: linear-gradient(180deg, #dbf0ee 41.338%, rgba(228, 239, 251, 0) 84.375%, rgba(219, 240, 238, 0) 84.385%);
-  background-size: 100% 752px;
-  background-repeat: no-repeat;
+  background-image: var(--page-background);
+  background-size: 180px 180px, 100% 100%;
+  background-repeat: repeat, no-repeat;
 }
 
 .something-else__form {
@@ -18,7 +18,7 @@
 
 .something-else__title {
   margin: 0;
-  color: var(--color-turquoise);
+  color: var(--color-accent);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.6;
@@ -32,7 +32,7 @@
   flex-shrink: 0;
   margin-top: 40px;
   padding: 16px 12px;
-  border: 1px solid var(--color-turquoise);
+  border: 1px solid var(--color-primary);
   border-radius: 20px;
   background: var(--color-white);
   color: #000;
@@ -43,13 +43,13 @@
 }
 
 .something-else__input::placeholder {
-  color: #c4c4c4;
+  color: var(--color-muted);
   opacity: 1;
 }
 
 .something-else__input:focus {
-  border-color: var(--color-turquoise);
-  outline: 2px solid var(--color-turquoise);
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -71,7 +71,7 @@
   border: 0;
   border-radius: var(--radius-button);
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-button-text);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.5;
@@ -79,7 +79,7 @@
 }
 
 .something-else__continue:disabled {
-  background: #cfdbe3;
+  background: var(--color-disabled);
   color: var(--color-background);
   cursor: default;
 }
@@ -90,7 +90,7 @@
 }
 
 .something-else__continue:not(:disabled):active {
-  background: #8fbbef;
+  background: var(--color-primary-active);
 }
 
 

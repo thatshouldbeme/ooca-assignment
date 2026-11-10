@@ -4,14 +4,9 @@
   width: 100%;
   padding: 48px 24px 32px;
   background-color: var(--color-background);
-  background-image: linear-gradient(
-    180deg,
-    #dbf0ee 41.338%,
-    rgba(228, 239, 251, 0) 84.375%,
-    rgba(219, 240, 238, 0) 84.385%
-  );
-  background-size: 100% 752px;
-  background-repeat: no-repeat;
+  background-image: var(--page-background);
+  background-size: 180px 180px, 100% 100%;
+  background-repeat: repeat, no-repeat;
   overflow-y: auto;
 }
 
@@ -48,7 +43,7 @@
 }
 
 .thought__category-label {
-  color: var(--color-turquoise);
+  color: var(--color-accent);
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: 700;
@@ -116,7 +111,7 @@
   padding: 16px 24px;
   border-radius: 20px;
   background: var(--color-white);
-  box-shadow: 0 16px 24px rgba(0, 196, 179, 0.16);
+  box-shadow: 0 16px 24px var(--color-shadow);
 }
 
 .thought__card-text {
@@ -133,7 +128,7 @@
   min-width: 0;
   height: 58px;
   padding: 16px 24px;
-  border: 1px solid var(--color-turquoise);
+  border: 1px solid var(--color-primary);
   border-radius: 20px;
   background: var(--color-white);
   color: var(--color-text);
@@ -144,13 +139,13 @@
 }
 
 .thought__input::placeholder {
-  color: #c4c4c4;
+  color: var(--color-muted);
   opacity: 1;
 }
 
 .thought__input:focus {
-  border-color: var(--color-turquoise);
-  outline: 2px solid var(--color-turquoise);
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -201,7 +196,7 @@
   border: 0;
   border-radius: var(--radius-button);
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-button-text);
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
@@ -210,13 +205,13 @@
 }
 
 .thought__continue:disabled {
-  background: #cfdbe3;
+  background: var(--color-disabled);
   color: var(--color-background);
   cursor: default;
 }
 
 .thought__continue:not(:disabled):active {
-  background: #8fbbef;
+  background: var(--color-primary-active);
 }
 
 .thought__continue:focus-visible {
@@ -241,5 +236,5 @@
   }
 }
 
-.thought__card--editable { border: 0; cursor: pointer; text-align: left; }
+.thought__card--editable { background: var(--color-action-surface); border: 1px solid var(--color-primary); cursor: pointer; text-align: left; }
 .thought__card--editable:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
