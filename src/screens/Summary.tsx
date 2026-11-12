@@ -1,6 +1,7 @@
 import lightningIcon from '../assets/icons/electric_bolt.svg'
 import moonIcon from '../assets/icons/moon.svg'
 import moocaIllustration from '../assets/images/Mooca.svg'
+import BackButton from '../components/BackButton'
 import './Summary.css'
 
 export type ActionableItem = {
@@ -13,6 +14,7 @@ export type SummaryProps = {
   uncontrollableThoughts?: ActionableItem[]
   previewState?: 'mixed' | 'actionable' | 'uncontrollable'
   onDone?: () => void
+  onBack?: () => void
 }
 
 const DEFAULT_MIXED_ACTIONABLE: ActionableItem[] = [
@@ -41,6 +43,7 @@ export default function Summary({
   uncontrollableThoughts,
   previewState = 'mixed',
   onDone,
+  onBack,
 }: SummaryProps) {
   let actionable: ActionableItem[] = []
   let uncontrollable: ActionableItem[] = []
@@ -77,10 +80,11 @@ export default function Summary({
   return (
     <main className="summary" aria-labelledby="summary-title">
       <div className="summary__content">
+        {onBack && <BackButton onBack={onBack} />}
         <header className="summary__header">
           {isMixed && (
             <h1 id="summary-title" className="summary__title">
-              ไม่ต้องแก้ทุกเรื่องให้ได้ในวันนี้ก็ได้นะ
+              วันนี้ไม่จำเป็นต้องแก้ให้ได้ทุกเรื่อง
               <br />
               ตอนนี้ลองเริ่มจากเรื่องที่พอไหวก่อน
             </h1>
@@ -89,12 +93,12 @@ export default function Summary({
           {isAllActionable && (
             <>
               <h1 id="summary-title" className="summary__title">
-                {hasSteps ? 'เจอก้าวเล็ก ๆ ที่อยากลองแล้วนะ' : 'ได้ค่อย ๆ มองเห็นเรื่องในใจชัดขึ้นแล้วนะ'}
+                {hasSteps ? 'เจอก้าวเล็ก ๆ ที่อยากลองแล้ว' : 'เริ่มมองเห็นเรื่องในใจชัดขึ้นแล้ว'}
               </h1>
               <p className="summary__subtitle">
                 {hasSteps
                   ? 'ไม่ต้องทำให้ได้ทั้งหมด ค่อย ๆ ไปทีละก้าวก็พอ'
-                  : 'ยังไม่ต้องรู้ว่าจะทำอะไรต่อในตอนนี้ก็ได้นะ'}
+                  : 'ให้เวลาตัวเองค่อย ๆ คิดว่าจะทำอะไรต่อ'}
               </p>
             </>
           )}
@@ -102,11 +106,11 @@ export default function Summary({
           {isAllUncontrollable && (
             <>
               <h1 id="summary-title" className="summary__title">
-                ไม่ใช่ทุกเรื่องที่เราต้องแก้เองนะ
+                เราไม่จำเป็นต้องแก้ทุกเรื่องด้วยตัวเอง
               </h1>
               <div className="summary__subtitle">
                 <p>บางเรื่องสำคัญกับเรามาก แม้จะยังเปลี่ยนอะไรไม่ได้</p>
-                <p>{hasOutsideSteps ? 'ถ้าอยากลอง ก็เริ่มจากสิ่งเล็ก ๆ ที่พอไหว โดยไม่ต้องกดดันให้ได้ผลอย่างที่หวังนะ' : 'ตอนนี้วางไว้ก่อน แล้วให้ตัวเองได้พักบ้างก็ได้นะ'}</p>
+                <p>{hasOutsideSteps ? 'เริ่มจากสิ่งเล็ก ๆ ที่พอไหว โดยไม่ต้องกดดันให้ได้ผลอย่างที่หวัง' : 'ตอนนี้ลองวางเรื่องเหล่านี้ลง แล้วให้เวลาตัวเองได้พัก'}</p>
               </div>
             </>
           )}
@@ -189,8 +193,8 @@ export default function Summary({
 
               <p className="summary__rest-message">
                 {hasOutsideSteps
-                  ? 'เราลองทำในส่วนของเราได้ โดยไม่ต้องรับผิดชอบผลทั้งหมด พักได้เสมอถ้ายังไม่ไหวนะ'
-                  : 'ให้ตัวเองวางเรื่องเหล่านี้ไว้ก่อนก็ได้นะ ถ้าอยากกลับมาคิดอีกเมื่อไหร่ก็ค่อยว่ากัน'}
+                  ? 'ทำในส่วนที่เราไหว โดยไม่ต้องรับผิดชอบผลทั้งหมด และพักเมื่อรู้สึกว่าต้องการ'
+                  : 'พักเรื่องเหล่านี้ไว้ก่อน แล้วค่อยกลับมาทบทวนเมื่อพร้อม'}
               </p>
             </section>
           )}
@@ -211,6 +215,14 @@ export default function Summary({
           >
             วันนี้พอแค่นี้ก่อน
           </button>
+          <a
+            className="summary__feedback"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSd3TJGP7cA6NjdLzit43eHHLdPnXVYjiI7zVeorFQqGDDm_rQ/viewform?usp=dialog"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ช่วยบอกเราสักนิด เพื่อให้เราปรับปรุงประสบการณ์นี้ให้ดีขึ้น
+          </a>
         </footer>
       </div>
     </main>

@@ -15,28 +15,30 @@
 }
 
 :root {
-  /* Blue-led palette with butter yellow, peach and cedar accents. */
+  /* Honeydew, cornsilk, vanilla custard, willow green and emerald. */
   --font-family: 'LINE Seed Sans TH', sans-serif;
-  --color-text: #263c57;
-  --color-background: #faf7f1;
-  --color-accent: #375e95;
-  --color-primary: #7197d3;
-  --color-primary-active: #5f85c0;
-  --color-action-text: #375e95;
-  --color-action-surface: #e7f1fa;
+  --color-honeydew: #f0f7ea;
+  --color-cornsilk: #fffae0;
+  --color-vanilla: #eee59f;
+  --color-willow: #aad480;
+  --color-emerald: #75c97f;
+  --color-text: #304b35;
+  --color-background: var(--color-honeydew);
+  --color-accent: #347746;
+  --color-primary: #39804a;
+  --color-primary-active: #2c693c;
+  --color-action-text: #347746;
+  --color-action-surface: #e3f2db;
   --color-button-text: #fff;
-  --color-muted: #64758a;
-  --color-butter: #ffe497;
-  --color-peach: #ffba9c;
-  --color-sky: #cfe1f3;
-  --color-cedar: #96945c;
-  --color-card-tint: #fff0bf;
-  --color-outside-surface: #fff0e8;
-  --color-outside-border: #e7bda9;
-  --color-disabled: #d8e0e9;
-  --color-shadow: rgb(71 108 161 / 12%);
+  --color-muted: #64775e;
+  --color-back: #52733a;
+  --color-card-tint: var(--color-cornsilk);
+  --color-outside-surface: var(--color-cornsilk);
+  --color-outside-border: #c2b85e;
+  --color-disabled: #d8e3cf;
+  --color-shadow: rgb(71 116 67 / 12%);
   --surface-noise: url('./assets/noise.svg');
-  --page-background: var(--surface-noise), linear-gradient(180deg, #cfe1f3 0%, #e8f0f7 48%, #faf7f1 100%);
+  --page-background: var(--surface-noise), linear-gradient(155deg, #c3e3aa 0%, #edf4d5 48%, #f0f7ea 100%);
   --color-white: #fff;
   --screen-width: 402px;
   --radius-button: 50px;

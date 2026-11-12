@@ -117,7 +117,7 @@
 .sort__drop-zone--drag-over {
   border: 2px solid var(--color-primary);
   background-color: var(--color-white);
-  box-shadow: 0 0 0 8px rgb(113 151 211 / 25%);
+  box-shadow: 0 0 0 8px rgb(117 201 127 / 25%);
 }
 
 .sort__drop-zone--selectable {
@@ -287,7 +287,7 @@
 }
 
 .sort__drop-zone--outside.sort__drop-zone--drag-over {
-  box-shadow: 0 0 0 8px rgb(255 186 156 / 25%);
+  box-shadow: 0 0 0 8px rgb(238 229 159 / 35%);
 }
 
 .sort__drop-zone--outside:focus-visible,

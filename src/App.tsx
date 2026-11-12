@@ -128,6 +128,7 @@ export default function App() {
                 actionableThoughts={groups.actionable.map(({ id, text }) => ({ thought: text, step: steps[id] ?? '' }))}
                 uncontrollableThoughts={groups.nonActionable.map(({ id, text }) => ({ thought: text, step: steps[id] ?? '' }))}
                 onDone={handleDone}
+                onBack={() => setCurrentScreen(groups.nonActionable.length > 0 ? 'outsideStep' : 'smallStep')}
               />
             )}
           </motion.div>

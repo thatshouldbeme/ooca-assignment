@@ -168,7 +168,7 @@ export default function Sort({ groups, onChange, onContinue, onBack }: SortProps
         )}
 
         <div className="sort__instructions">
-          <p>ลากแต่ละเรื่องไปที่หมวดที่รู้สึกว่าใช่ หรือแตะเลือกเรื่อง แล้วแตะหมวดก็ได้นะ</p>
+          <p>ลากแต่ละเรื่องไปที่หมวดที่รู้สึกว่าใช่ หรือแตะเลือกเรื่อง แล้วแตะหมวดเพื่อย้าย</p>
         </div>
 
         <p id="sort-keyboard-help" className="sort__sr-only">

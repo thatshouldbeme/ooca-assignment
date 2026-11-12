@@ -65,6 +65,7 @@
 }
 
 .flow__back {
+  color: var(--color-back);
   align-self: flex-start;
   margin-bottom: 20px;
   font-size: 14px;
@@ -75,6 +76,10 @@
 .flow__text-button:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+.flow__back:focus-visible {
+  outline-color: var(--color-back);
 }
 
 .flow__text-button:disabled { opacity: 0.5; cursor: default; }
